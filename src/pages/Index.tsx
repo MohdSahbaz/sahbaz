@@ -158,10 +158,6 @@ const Index = () => {
 
         {/* 🌐 Canonical URL */}
         <link rel="canonical" href="https://sahbaz.vercel.app" />
-        <meta
-          name="google-site-verification"
-          content="nUEpL6dijbw_QaNGzo1t7vDkLct16tOw5vzaPKMluo0"
-        />
 
         {/* 🧠 Open Graph / Facebook / LinkedIn */}
         <meta property="og:type" content="website" />
