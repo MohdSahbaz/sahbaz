@@ -157,7 +157,7 @@ const Index = () => {
         />
 
         {/* 🌐 Canonical URL */}
-        <link rel="canonical" href="https://yourportfolio.com" />
+        <link rel="canonical" href="https://sahbaz.vercel.app" />
 
         {/* 🧠 Open Graph / Facebook / LinkedIn */}
         <meta property="og:type" content="website" />
@@ -169,10 +169,10 @@ const Index = () => {
           property="og:description"
           content={`${portfolioData.description} Based in ${portfolioData.location}.`}
         />
-        <meta property="og:url" content="https://yourportfolio.com" />
+        <meta property="og:url" content="https://sahbaz.vercel.app" />
         <meta
           property="og:image"
-          content="https://yourportfolio.com/og-image.jpg"
+          content="https://sahbaz.vercel.app/og-image.jpg"
         />
         <meta
           property="og:site_name"
@@ -209,9 +209,9 @@ const Index = () => {
             "@type": "Person",
             name: portfolioData.name,
             jobTitle: portfolioData.title,
-            url: "https://yourportfolio.com",
+            url: "https://sahbaz.vercel.app",
             description: portfolioData.description,
-            image: "https://yourportfolio.com/og-image.jpg",
+            image: "https://sahbaz.vercel.app/og-image.jpg",
             sameAs: [
               portfolioData.social.github,
               portfolioData.social.linkedin,
