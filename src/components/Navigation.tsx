@@ -21,7 +21,6 @@ const Navigation = () => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
 
-      // Update active section based on scroll position
       const sections = [
         "home",
         "about",
@@ -30,35 +29,37 @@ const Navigation = () => {
         "experience",
         "contact",
       ];
-      const currentSection = sections.find((section) => {
-        const element = document.getElementById(section);
-        if (element) {
-          const rect = element.getBoundingClientRect();
-          return rect.top <= 100 && rect.bottom >= 100;
-        }
-        return false;
+
+      const current = sections.find((section) => {
+        const el = document.getElementById(section);
+        if (!el) return false;
+        const rect = el.getBoundingClientRect();
+        return rect.top <= 100 && rect.bottom >= 100;
       });
 
-      if (currentSection) {
-        setActiveSection(`#${currentSection}`);
-      }
+      if (current) setActiveSection(`#${current}`);
     };
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const handleNavClick = (
-    e: React.MouseEvent<HTMLAnchorElement>,
-    path: string
-  ) => {
-    e.preventDefault();
+  const handleNavClick = (path: string) => {
     setIsOpen(false);
 
-    const element = document.querySelector(path);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
+    // Update URL hash
+    window.history.pushState(null, "", path);
+
+    // Scroll smoothly with delay (works on mobile Safari + Chrome)
+    setTimeout(() => {
+      const element = document.querySelector(path);
+      if (element) {
+        const yOffset = -30; // Adjust for fixed navbar height
+        const y =
+          element.getBoundingClientRect().top + window.scrollY + yOffset;
+        window.scrollTo({ top: y, behavior: "smooth" });
+      }
+    }, 50);
   };
 
   return (
@@ -66,42 +67,36 @@ const Navigation = () => {
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? "glass-card shadow-lg" : "bg-transparent"
+        scrolled ? "glass-card shadow-lg backdrop-blur-md" : "bg-transparent"
       }`}
-      role="navigation"
-      aria-label="Main navigation"
     >
-      <div className="container mx-auto px-3 sm:px-4 py-3 sm:py-4">
+      <div className="container mx-auto px-4 py-3">
         <div className="flex items-center justify-between">
           {/* Logo */}
           <a
             href="#home"
-            onClick={(e) => handleNavClick(e, "#home")}
+            onClick={() => handleNavClick("#home")}
             className="text-xl sm:text-2xl font-bold gradient-text"
-            aria-label="Home"
           >
             SC
           </a>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-4 lg:gap-8">
+          {/* Desktop Menu */}
+          <div className="hidden md:flex items-center gap-6">
             {navLinks.map((link) => (
               <a
                 key={link.path}
                 href={link.path}
-                onClick={(e) => handleNavClick(e, link.path)}
+                onClick={() => handleNavClick(link.path)}
                 className={`relative text-foreground hover:text-primary transition-colors ${
                   activeSection === link.path ? "text-primary" : ""
                 }`}
-                aria-current={activeSection === link.path ? "page" : undefined}
               >
                 {link.name}
                 {activeSection === link.path && (
                   <motion.div
                     layoutId="navbar-indicator"
                     className="absolute -bottom-1 left-0 right-0 h-0.5 bg-primary"
-                    initial={false}
-                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
                   />
                 )}
               </a>
@@ -114,14 +109,12 @@ const Navigation = () => {
             size="icon"
             className="md:hidden"
             onClick={() => setIsOpen(!isOpen)}
-            aria-label={isOpen ? "Close menu" : "Open menu"}
-            aria-expanded={isOpen}
           >
             {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </Button>
         </div>
 
-        {/* Mobile Navigation */}
+        {/* Mobile Menu */}
         <AnimatePresence>
           {isOpen && (
             <motion.div
@@ -135,15 +128,12 @@ const Navigation = () => {
                   <a
                     key={link.path}
                     href={link.path}
-                    onClick={(e) => handleNavClick(e, link.path)}
+                    onClick={() => handleNavClick(link.path)}
                     className={`px-4 py-2 rounded-lg transition-colors ${
                       activeSection === link.path
                         ? "bg-primary text-primary-foreground"
                         : "hover:bg-muted"
                     }`}
-                    aria-current={
-                      activeSection === link.path ? "page" : undefined
-                    }
                   >
                     {link.name}
                   </a>
