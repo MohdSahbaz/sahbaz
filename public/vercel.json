@@ -1,9 +1,12 @@
 {
   "routes": [
     {
-      "src": "/(.*)",
-      "dest": "/",
-      "headers": { "x-prerender-revalidate": "true" }
+      "src": "/(sitemap\\.xml|robots\\.txt)",
+      "dest": "/$1"
+    },
+    {
+      "src": "/.*",
+      "dest": "/index.html"
     }
   ]
 }
