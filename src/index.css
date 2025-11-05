@@ -1,0 +1,188 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    /* Cosmic Dark Theme - Base Colors */
+    --background: 252 71% 4%;        /* #0A0A1A - Deep space black */
+    --foreground: 0 0% 95%;          /* Light text */
+
+    --cosmic-dark: 252 50% 8%;       /* #12122B - Cosmic dark */
+    --cosmic-mid: 252 40% 15%;       /* #1E1E3A - Cosmic mid */
+    
+    /* Neon Accent Colors */
+    --neon-cyan: 180 100% 50%;       /* #00FFFF */
+    --neon-magenta: 300 100% 50%;    /* #FF00FF */
+    --neon-purple: 270 70% 60%;      /* #A855F7 */
+    
+    /* Card & Surface Colors */
+    --card: 252 50% 8%;
+    --card-foreground: 0 0% 95%;
+    --card-glass: 252 50% 10% / 0.6;
+
+    --popover: 252 50% 8%;
+    --popover-foreground: 0 0% 95%;
+
+    /* Primary - Neon Cyan */
+    --primary: 180 100% 50%;
+    --primary-foreground: 252 71% 4%;
+
+    /* Secondary - Neon Purple */
+    --secondary: 270 70% 60%;
+    --secondary-foreground: 0 0% 100%;
+
+    /* Muted */
+    --muted: 252 40% 15%;
+    --muted-foreground: 0 0% 65%;
+
+    /* Accent - Neon Magenta */
+    --accent: 300 100% 50%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 252 40% 20%;
+    --input: 252 40% 15%;
+    --ring: 180 100% 50%;
+
+    --radius: 1rem;
+
+    /* Gradients */
+    --gradient-cosmic: linear-gradient(135deg, hsl(270 70% 60%), hsl(180 100% 50%));
+    --gradient-hero: linear-gradient(135deg, hsl(252 71% 4%), hsl(252 50% 8%), hsl(270 70% 30%));
+    --gradient-card: linear-gradient(135deg, hsl(252 50% 10% / 0.8), hsl(270 70% 20% / 0.3));
+    
+    /* Shadows & Glows */
+    --glow-cyan: 0 0 20px hsl(180 100% 50% / 0.5), 0 0 40px hsl(180 100% 50% / 0.3);
+    --glow-purple: 0 0 20px hsl(270 70% 60% / 0.5), 0 0 40px hsl(270 70% 60% / 0.3);
+    --glow-magenta: 0 0 20px hsl(300 100% 50% / 0.5), 0 0 40px hsl(300 100% 50% / 0.3);
+    
+    /* Animations */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground overflow-x-hidden;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer components {
+  /* Gradient Text */
+  .gradient-text {
+    @apply bg-clip-text text-transparent;
+    background-image: var(--gradient-cosmic);
+  }
+
+  /* Glass Card Effect */
+  .glass-card {
+    @apply backdrop-blur-lg bg-card/60 border border-border/50 rounded-2xl;
+    background: linear-gradient(135deg, hsl(252 50% 10% / 0.8), hsl(270 70% 20% / 0.3));
+  }
+
+  /* Neon Glow Effects */
+  .glow-cyan {
+    text-shadow: var(--glow-cyan);
+  }
+
+  .glow-purple {
+    text-shadow: var(--glow-purple);
+  }
+
+  .glow-magenta {
+    text-shadow: var(--glow-magenta);
+  }
+
+  /* Animated Border */
+  .animated-border {
+    position: relative;
+    background: linear-gradient(135deg, hsl(252 50% 10% / 0.8), hsl(270 70% 20% / 0.3));
+    border-radius: 1rem;
+  }
+
+  .animated-border::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 1rem;
+    padding: 2px;
+    background: linear-gradient(135deg, hsl(180 100% 50%), hsl(270 70% 60%), hsl(300 100% 50%));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0.8;
+    animation: borderRotate 3s linear infinite;
+  }
+
+  @keyframes borderRotate {
+    0% {
+      filter: hue-rotate(0deg);
+    }
+    100% {
+      filter: hue-rotate(360deg);
+    }
+  }
+
+  /* Focus Visible Styles for Accessibility */
+  *:focus-visible {
+    @apply outline-none ring-2 ring-primary ring-offset-2 ring-offset-background rounded;
+  }
+}
+
+@layer utilities {
+  /* Particle Container */
+  .particle-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Floating Animation */
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-20px);
+    }
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  /* Pulse Glow */
+  @keyframes pulseGlow {
+    0%, 100% {
+      box-shadow: 0 0 20px hsl(180 100% 50% / 0.3);
+    }
+    50% {
+      box-shadow: 0 0 40px hsl(180 100% 50% / 0.6), 0 0 60px hsl(270 70% 60% / 0.4);
+    }
+  }
+
+  .animate-pulse-glow {
+    animation: pulseGlow 3s ease-in-out infinite;
+  }
+}
