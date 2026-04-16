@@ -19,3 +19,4 @@ This document contains links to the implementation of various Big Data practical
 ---
 *Last updated: 2026-04-15*
 *GitHub: https://github.com/DeltaOptimist/BigData_Practicals*
+*Google Colab: https://colab.research.google.com/drive/11D2lFFZwYuPs1QVtH0oDKfi0hD_PdHlr*
